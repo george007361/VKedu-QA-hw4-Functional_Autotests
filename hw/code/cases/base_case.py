@@ -12,11 +12,11 @@ class BaseCase():
     @pytest.fixture(autouse=True)
     def setup(self, driver: WebDriver, request: FixtureRequest):
         self.driver = driver
-        self.loginPage = LoginPage(driver)
+        self.currentPage = LoginPage(driver)
 
         if self.authorize:
             cookies = request.getfixturevalue('cookies')
             for cookie in cookies:
                 self.driver.add_cookie(cookie)
             self.driver.refresh()
-            self.feedPage = FeedPage(driver)
+            self.currentPage = FeedPage(driver)

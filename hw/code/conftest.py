@@ -62,6 +62,7 @@ def cookies(credentials, pytestconfig):
     loginPage.Login(*credentials)
 
     _ = FeedPage(driver)
+    driver.get('https://vdonate.ml/api/v1/')
     _ = ApiPage(driver)
 
     cookies = driver.get_cookies()
