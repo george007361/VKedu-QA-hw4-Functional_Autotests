@@ -2,17 +2,17 @@ import time
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
-from pages.locators import BasePageLocators
-
 
 class PageNotOpenedExeption(Exception):
     pass
 
 
 class BasePage(object):
-
-    locators = BasePageLocators()
     url = 'https://www.vdonate.ml'
+
+    def __init__(self, driver):
+        self.driver = driver
+        self.IsOpened()
 
     def IsOpened(self, timeout=15):
         started = time.time()
@@ -21,10 +21,6 @@ class BasePage(object):
                 return True
         raise PageNotOpenedExeption(
             f'{self.url} did not open in {timeout} sec, current url {self.driver.current_url}')
-
-    def __init__(self, driver):
-        self.driver = driver
-        self.IsOpened()
 
     def Wait(self, timeout=5):
         return WebDriverWait(self.driver, timeout=timeout)
