@@ -5,8 +5,6 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from pages.login_page import LoginPage
 from pages.feed_page import FeedPage
 
-import time
-
 
 class BaseCase():
     authorize = True

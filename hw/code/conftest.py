@@ -59,7 +59,7 @@ def cookies(credentials, pytestconfig):
     driver.get(pytestconfig.getoption('url'))
 
     loginPage = LoginPage(driver)
-    loginPage.login(*credentials)
+    loginPage.Login(*credentials)
 
     _ = FeedPage(driver)
     _ = ApiPage(driver)
