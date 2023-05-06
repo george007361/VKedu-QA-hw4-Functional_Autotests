@@ -1,8 +1,9 @@
 import pytest
-from VDonate.pages.signin_page import SigninPage
 import os
-from VDonate.helpers.popup_notifications import PopupNotification
-from VDonate.helpers.redirects import Redirect
+
+from pages.signin_page import SigninPage
+from helpers.popup_notifications import PopupNotification
+from helpers.redirects import Redirect
 
 class Case:
     def __init__(self, email, passwd, msg = ''):

@@ -1,9 +1,9 @@
 
 import pytest
-from VDonate.pages.signup_page import SignupPage
-from VDonate.helpers.random_data import RandomData
-from VDonate.helpers.popup_notifications import PopupNotification
-from VDonate.helpers.redirects import Redirect
+from pages.signup_page import SignupPage
+from helpers.random_data import RandomData
+from helpers.popup_notifications import PopupNotification
+from helpers.redirects import Redirect
 
 
 class Case:
@@ -15,7 +15,7 @@ class Case:
         self.passwd_repeat = passwd if passwd_repeat == '' else passwd_repeat 
 
 
-def _test_signup_success(browser):
+def test_signup_success(browser):
     cases = [
         Case(RandomData.string(12, RandomData.latin)+'@mail.ru', RandomData.string(10, RandomData.latin), '12345678'),
     ]
