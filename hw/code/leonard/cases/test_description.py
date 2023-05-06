@@ -1,6 +1,6 @@
 import pytest
-from cases.base_case import BaseCase
-from pages.profile_page import ProfilePage
+from leonard.cases.base_case import BaseCase
+from leonard.pages.profile_page import ProfilePage
 
 
 class TestProfileDescription(BaseCase):

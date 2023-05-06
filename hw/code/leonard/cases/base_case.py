@@ -2,8 +2,8 @@ import pytest
 from _pytest.fixtures import FixtureRequest
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from pages.login_page import LoginPage
-from pages.feed_page import FeedPage
+from leonard.pages.login_page import LoginPage
+from leonard.pages.feed_page import FeedPage
 
 
 class BaseCase():
