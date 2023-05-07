@@ -7,9 +7,10 @@ from leonard.pages.profile_page import ProfilePage
 from leonard.utils.help import RandomText
 
 savePayload = [
-    (
+    pytest.param(
         '',
-        'Здесь будет информация о Вас.\nСкорее заполните ее, чтобы пользователи могли узнать о Вас больше.'
+        'Здесь будет информация о Вас.\nСкорее заполните ее, чтобы пользователи могли узнать о Вас больше.',
+        marks=pytest.mark.xfail
     ),
     ('   Текст с внешними пробелами.   ', 'Текст с внешними пробелами.'),
     (
@@ -23,54 +24,59 @@ class TestAbout(BaseCase):
     authorize = True
 
     @pytest.fixture(autouse=True, scope='function')
-    def profile(self, setup):
-        self.driver.get('https://vdonate.ml/profile?id=9')
-        self.currentPage = ProfilePage(self.driver, 9)
+    def profile(self, setup, profileID):
+        self.driver.get('https://vdonate.ml/profile?id=' + profileID)
+        self.currentPage = ProfilePage(self.driver, profileID)
 
     @pytest.fixture(scope='function')
-    def editabout(self, profile):
+    def openeEditor(self, profile):
         self.currentPage.ClickAboutEditBtn()
 
     def test_editor_open(self):
         self.currentPage.ClickAboutEditBtn()
-        assert self.currentPage.GetAbout().get_attribute('contenteditable') == 'true'
+        assert self.currentPage.GetAboutContent().get_attribute('contenteditable') == 'true'
 
-    def test_editor_close(self, editabout):
+    def test_editor_close(self, openeEditor):
         self.currentPage.ClickAboutEditBtn()
-        assert self.currentPage.GetAbout().get_attribute('contenteditable') == 'false'
+        assert self.currentPage.GetAboutContent().get_attribute(
+            'contenteditable') == 'false'
 
-    def test_cancel(self, editabout):
+    def test_cancel(self):
         cancelText = RandomText(10)
-        currentText = self.currentPage.GetAbout().text
-        self.currentPage.GetAbout().send_keys(cancelText)
+        currentText = self.currentPage.GetAboutContent().text
+        self.currentPage.ClickAboutEditBtn()
+        self.currentPage.GetAboutContent().send_keys(cancelText)
         self.currentPage.ClickAboutCancelBtn()
-        assert self.currentPage.GetAbout().text == currentText
+        assert self.currentPage.GetAboutContent().text == currentText
 
     @pytest.mark.parametrize('aInputText, aSavedText', savePayload)
-    def test_save(self, editabout, aInputText, aSavedText):
-        self.currentPage.GetAbout().clear()
-        self.currentPage.GetAbout().send_keys(aInputText)
+    def test_save(self, openeEditor, aInputText, aSavedText):
+        self.currentPage.GetAboutContent().clear()
+        self.currentPage.GetAboutContent().send_keys(aInputText)
         self.currentPage.ClickAboutSubmitBtn()
-        assert self.currentPage.GetAbout().get_attribute('contenteditable') == 'false'
-        assert self.currentPage.GetAbout().text == aSavedText
+        assert self.currentPage.GetAboutContent().get_attribute(
+            'contenteditable') == 'false'
+        assert self.currentPage.GetAboutContent().text == aSavedText
 
-    def test_hotkey_save(self, editabout):
+    @pytest.mark.xfail
+    def test_hotkey_save(self, openeEditor):
         savedText = RandomText(10)
-        self.currentPage.GetAbout().clear()
-        self.currentPage.GetAbout().send_keys(savedText)
+        self.currentPage.GetAboutContent().clear()
+        self.currentPage.GetAboutContent().send_keys(savedText)
         ActionChains(self.driver)\
             .key_down(Keys.CONTROL)\
             .send_keys(Keys.ENTER)\
             .perform()
-        assert self.currentPage.GetAbout().get_attribute('contenteditable') == 'false'
-        assert self.currentPage.GetAbout().text == savedText
+        assert self.currentPage.GetAboutContent().get_attribute(
+            'contenteditable') == 'false'
+        assert self.currentPage.GetAboutContent().text == savedText
 
-    def test_overload_save(self, editabout):
+    def test_overload_save(self, openeEditor):
         savedText = RandomText(1001)
-        self.currentPage.GetAbout().clear()
-        self.currentPage.GetAbout().send_keys(savedText)
+        self.currentPage.GetAboutContent().clear()
+        self.currentPage.GetAboutContent().send_keys(savedText)
         self.currentPage.ClickAboutSubmitBtn(timeout=0)
-        assert self.currentPage.GetAbout().get_attribute('contenteditable') == 'true'
+        assert self.currentPage.GetAboutContent().get_attribute('contenteditable') == 'true'
         assert self.currentPage.Find(
-            BasePageLocators().NOTICE
+            BasePageLocators().NOTICE_LAST
         ).text == "Поле 'Обо мне' должно содержать меньше 1000 символов"

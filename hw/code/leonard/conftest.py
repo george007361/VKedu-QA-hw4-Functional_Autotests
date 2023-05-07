@@ -40,6 +40,12 @@ def driver(pytestconfig):
 
 
 @pytest.fixture(scope='session')
+def profileID():
+    id = os.environ['ID']
+    return id
+
+
+@pytest.fixture(scope='session')
 def credentials():
     login = os.environ['LOGIN']
     password = os.environ['PASSWORD']
