@@ -1,6 +1,8 @@
 import time
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.remote.webelement import WebElement
 
 
 class PageNotOpenedExeption(Exception):
@@ -10,8 +12,10 @@ class PageNotOpenedExeption(Exception):
 class BasePage(object):
     url = 'https://www.vdonate.ml'
 
-    def __init__(self, driver):
+    def __init__(self, driver: WebDriver, load=False):
         self.driver = driver
+        if load:
+            self.driver.get(self.url)
         self.IsOpened()
 
     def IsOpened(self, timeout=15):
@@ -25,7 +29,7 @@ class BasePage(object):
     def Wait(self, timeout=5):
         return WebDriverWait(self.driver, timeout=timeout)
 
-    def Find(self, locator, timeout=5):
+    def Find(self, locator, timeout=5) -> WebElement:
         return self.Wait(timeout).until(EC.visibility_of_element_located(locator))
 
     def Click(self, locator, timeout=5):

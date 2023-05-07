@@ -1,4 +1,4 @@
-from leonard.pages.base_page import BasePage
+from leonard.utils.base_page import BasePage
 
 
 class ApiPage(BasePage):

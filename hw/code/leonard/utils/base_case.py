@@ -9,7 +9,7 @@ from leonard.pages.feed_page import FeedPage
 class BaseCase():
     authorize = True
 
-    @pytest.fixture(autouse=True)
+    @pytest.fixture(autouse=True, scope='function')
     def setup(self, driver: WebDriver, request: FixtureRequest):
         self.driver = driver
         self.currentPage = LoginPage(driver)

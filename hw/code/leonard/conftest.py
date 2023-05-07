@@ -2,7 +2,6 @@ import os
 import pytest
 from selenium import webdriver
 
-from leonard.utils import GetDriver
 from leonard.pages.login_page import LoginPage
 from leonard.pages.feed_page import FeedPage
 from leonard.pages.api_page import ApiPage
@@ -47,6 +46,26 @@ def credentials():
     return login, password
 
 
+def GetDriver(aBrowserName):
+    if aBrowserName == 'chrome':
+        options = webdriver.ChromeOptions()
+        options.set_capability('browserName', 'chrome')
+        options.set_capability('browserVersion', '112.0')
+    elif aBrowserName == 'firefox':
+        options = webdriver.FirefoxOptions()
+        options.set_capability('browserName', 'firefox')
+        options.set_capability('browserVersion', '112.0')
+    else:
+        raise RuntimeError(f'Unsupported browser: "{aBrowserName}"')
+
+    driver = webdriver.Remote(
+        'http://127.0.0.1:4444/wd/hub',
+        options=options
+    )
+    driver.maximize_window()
+    return driver
+
+
 @pytest.fixture(scope='session')
 def cookies(credentials, pytestconfig):
     driver = GetDriver(pytestconfig.getoption('browser'))
@@ -56,8 +75,7 @@ def cookies(credentials, pytestconfig):
     loginPage.Login(*credentials)
 
     _ = FeedPage(driver)
-    driver.get('https://vdonate.ml/api/v1/')
-    _ = ApiPage(driver)
+    _ = ApiPage(driver, True)
 
     cookies = driver.get_cookies()
     driver.quit()

@@ -1,5 +1,5 @@
-from leonard.pages.base_page import BasePage
-from leonard.pages.locators import LoginPageLocators
+from leonard.utils.base_page import BasePage
+from leonard.utils.locators import LoginPageLocators
 
 
 class LoginPage(BasePage):
