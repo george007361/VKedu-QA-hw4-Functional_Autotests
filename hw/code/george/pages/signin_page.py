@@ -1,7 +1,6 @@
 from selenium.webdriver.common.by import By
 
 from pages.base_page import BasePage
-from selenium.webdriver.support import expected_conditions as EC
 
 class SigninPage(BasePage):
     url = 'https://vdonate.ml/login'
@@ -19,4 +18,3 @@ class SigninPage(BasePage):
         
         self.find(self.Locators.LOGIN_BUTTON).click()
 
-        self.wait().until(EC.url_changes(self.url))
