@@ -54,8 +54,6 @@ class TestAbout(BaseCase):
         self.currentPage.GetAboutContent().clear()
         self.currentPage.GetAboutContent().send_keys(aInputText)
         self.currentPage.ClickAboutSubmitBtn()
-        assert self.currentPage.GetAboutContent().get_attribute(
-            'contenteditable') == 'false'
         assert self.currentPage.GetAboutContent().text == aSavedText
 
     @pytest.mark.xfail

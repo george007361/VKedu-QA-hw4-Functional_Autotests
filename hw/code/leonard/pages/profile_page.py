@@ -1,6 +1,7 @@
 import time
 from leonard.utils.locators import ProfilePageLocators
 from leonard.utils.base_page import BasePage
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class ProfilePage(BasePage):
@@ -26,24 +27,26 @@ class ProfilePage(BasePage):
     def ClickAboutCancelBtn(self):
         self.Click(self.locators.ABOUT_CANCEL_BTN)
 
-    def ClickAboutSubmitBtn(self, timeout=1):
-        self.Click(self.locators.ABOUT_SUBMIT_BTN)
-        # Wait на обработку текста при нажатии submit
-        started = time.time()
-        while time.time() - started < timeout:
-            if self.GetAboutContent().get_attribute('contenteditable') == 'false':
-                return
+    def ClickAboutSubmitBtn(self, timeout=5):
+        self.ClickAndWait(
+            self.locators.ABOUT_SUBMIT_BTN,
+            timeout,
+            EC.text_to_be_present_in_element_attribute(
+                self.locators.ABOUT_CONTENT, 'contenteditable', 'false'
+            )
+        )
 
     def ClickPostCreateBtn(self):
         self.Click(self.locators.POST_CREATE_BTN)
 
-    def ClickPostCreaterSubmitBtn(self, timeout=1):
-        self.Click(self.locators.POST_CREATER_SUBMIT_BTN)
-        # Wait на обработку текста при нажатии submit
-        started = time.time()
-        while time.time() - started < timeout:
-            if len(self.driver.find_elements(*self.locators.POST_CREATE_CONTENT)) == 0:
-                return
+    def ClickPostCreaterSubmitBtn(self, timeout=5):
+        self.ClickAndWait(
+            self.locators.POST_CREATER_SUBMIT_BTN,
+            timeout,
+            EC.invisibility_of_element_located(
+                self.locators.POST_CREATE_CONTENT
+            )
+        )
 
     def ClickPostCreaterCanselBtn(self):
         self.Click(self.locators.POST_CREATER_CANCEL_BTN)

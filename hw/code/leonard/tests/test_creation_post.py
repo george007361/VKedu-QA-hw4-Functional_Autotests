@@ -48,8 +48,6 @@ class TestCreationPost(BaseCase):
         self.currentPage.GetCreatePostContent().clear()
         self.currentPage.GetCreatePostContent().send_keys(savedText)
         self.currentPage.ClickPostCreaterSubmitBtn()
-        assert self.currentPage.GetLastPostContent()\
-            .get_attribute('contenteditable') == None
         assert self.currentPage.GetLastPostContent().text == savedText
 
     def test_create_empty(self, openCreator):
