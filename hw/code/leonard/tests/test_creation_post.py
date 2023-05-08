@@ -1,6 +1,4 @@
-import time
 import pytest
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import Keys, ActionChains
 from leonard.utils.locators import BasePageLocators
 from leonard.utils.base_case import BaseCase
@@ -90,7 +88,7 @@ class TestCreationPost(BaseCase):
         content.clear()
         self.currentPage.UploadImage(
             openCreator,
-            'hw/code/leonard/tests/test-image.jpg',
+            'hw/code/leonard/uploads/test-image.jpg',
             20
         )
         savedText = content.text

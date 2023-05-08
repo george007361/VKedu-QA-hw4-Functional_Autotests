@@ -1,8 +1,6 @@
-import time
 import pytest
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver import Keys, ActionChains
-from leonard.utils.locators import BasePageLocators, ProfilePageLocators
+from leonard.utils.locators import ProfilePageLocators
 from leonard.utils.base_case import BaseDualCase
 from leonard.pages.profile_page import ProfilePage
 from leonard.utils.help import RandomText

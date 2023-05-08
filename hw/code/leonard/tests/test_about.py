@@ -1,4 +1,3 @@
-import time
 import pytest
 from selenium.webdriver import Keys, ActionChains
 from leonard.utils.locators import BasePageLocators
