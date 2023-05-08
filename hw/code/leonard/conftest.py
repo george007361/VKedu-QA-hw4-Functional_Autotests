@@ -8,47 +8,66 @@ from leonard.pages.api_page import ApiPage
 
 
 @pytest.fixture()
-def driver(pytestconfig):
-    browser = pytestconfig.getoption('browser')
-    url = pytestconfig.getoption('url')
-    vnc = pytestconfig.getoption('vnc')
+def driverFactory(pytestconfig):
+    drivers = []
 
-    if browser == 'chrome':
-        options = webdriver.ChromeOptions()
-        options.set_capability('browserName', 'chrome')
-        options.set_capability('browserVersion', '112.0')
-    elif browser == 'firefox':
-        options = webdriver.FirefoxOptions()
-        options.set_capability('browserName', 'firefox')
-        options.set_capability('browserVersion', '112.0')
-    else:
-        raise RuntimeError(f'Unsupported browser: "{browser}"')
+    def _driver():
+        browser = pytestconfig.getoption('browser')
+        url = pytestconfig.getoption('url')
+        vnc = pytestconfig.getoption('vnc')
 
-    if vnc:
-        options.set_capability('selenoid:options', {
-            'enableVNC': True
-        })
+        if browser == 'chrome':
+            options = webdriver.ChromeOptions()
+            options.set_capability('browserName', 'chrome')
+            options.set_capability('browserVersion', '112.0')
+        elif browser == 'firefox':
+            options = webdriver.FirefoxOptions()
+            options.set_capability('browserName', 'firefox')
+            options.set_capability('browserVersion', '112.0')
+        else:
+            raise RuntimeError(f'Unsupported browser: "{browser}"')
 
-    driver = webdriver.Remote(
-        'http://127.0.0.1:4444/wd/hub',
-        options=options
-    )
-    driver.get(url)
-    driver.maximize_window()
-    yield driver
-    driver.quit()
+        if vnc:
+            options.set_capability('selenoid:options', {
+                'enableVNC': True
+            })
+
+        driver = webdriver.Remote(
+            'http://127.0.0.1:4444/wd/hub',
+            options=options
+        )
+        drivers.append(driver)
+        driver.get(url)
+        driver.maximize_window()
+        return driver
+
+    yield _driver
+
+    for driver in drivers:
+        driver.quit()
 
 
 @pytest.fixture(scope='session')
 def profileID():
-    id = os.environ['ID']
-    return id
+    idAuthor = os.environ['ID']
+    idDonator = os.environ['ID_DONATOR']
+
+    def _predicate(aAsAuthor: bool):
+        return idAuthor if aAsAuthor else idDonator
+    return _predicate
 
 
 @pytest.fixture(scope='session')
-def credentials():
+def credentialsAuthor():
     login = os.environ['LOGIN']
     password = os.environ['PASSWORD']
+    return login, password
+
+
+@pytest.fixture(scope='session')
+def credentialsDonator():
+    login = os.environ['LOGIN_DONATOR']
+    password = os.environ['PASSWORD_DONATOR']
     return login, password
 
 
@@ -72,10 +91,9 @@ def GetDriver(aBrowserName):
     return driver
 
 
-@pytest.fixture(scope='session')
-def cookies(credentials, pytestconfig):
-    driver = GetDriver(pytestconfig.getoption('browser'))
-    driver.get(pytestconfig.getoption('url'))
+def GetCookies(credentials, config):
+    driver = GetDriver(config.getoption('browser'))
+    driver.get(config.getoption('url'))
 
     loginPage = LoginPage(driver)
     loginPage.Login(*credentials)
@@ -86,3 +104,14 @@ def cookies(credentials, pytestconfig):
     cookies = driver.get_cookies()
     driver.quit()
     return cookies
+
+
+@pytest.fixture(scope='session')
+def cookies(credentialsAuthor, credentialsDonator, pytestconfig):
+    cookies = []
+    cookies.append(GetCookies(credentialsAuthor, pytestconfig))
+    cookies.append(GetCookies(credentialsDonator, pytestconfig))
+
+    def _predicate(aAsAuthor: bool):
+        return cookies[0] if aAsAuthor else cookies[1]
+    return _predicate

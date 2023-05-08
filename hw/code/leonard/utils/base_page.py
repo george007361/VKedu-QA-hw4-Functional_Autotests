@@ -4,8 +4,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 
-from leonard.utils.help import FindElementInElement
-
 
 class PageNotOpenedExeption(Exception):
     pass
@@ -54,3 +52,11 @@ class BasePage(object):
         self.Click(aLocator)
         if aTimeout:
             self.Wait(aTimeout).until(aCheck)
+
+    def Reload(self):
+        self.driver.refresh()
+        self.Wait(20).until(
+            lambda _:
+                self.driver.execute_script(
+                    'return document.readyState;') == 'complete'
+        )

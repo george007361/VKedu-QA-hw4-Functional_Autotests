@@ -25,7 +25,8 @@ class TestAbout(BaseCase):
 
     @pytest.fixture(autouse=True, scope='function')
     def profile(self, setup, profileID):
-        self.currentPage = ProfilePage(self.driver, profileID, True)
+        self.currentPage = ProfilePage(
+            self.driver, profileID(self.asAuthor), True)
 
     @pytest.fixture(scope='function')
     def openeEditor(self, profile):

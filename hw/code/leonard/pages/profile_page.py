@@ -32,6 +32,9 @@ class ProfilePage(BasePage):
             aPost, self.locators.POST_SELECTOR_TIER)
         return Select(selectElement)
 
+    def GetPostNotAllowedElem(self, aPost: WebElement):
+        return self.FindIn(aPost, self.locators.POST_NOT_ALLOWED)
+
     def ClickAboutEditBtn(self):
         self.Click(self.locators.ABOUT_EDIT_BTN)
 
@@ -55,8 +58,21 @@ class ProfilePage(BasePage):
         self.ClickAndWait(
             submit,
             aTimeout,
-            EC.invisibility_of_element_located(
-                self.locators.POST_CREATED
+            EC.all_of(
+                EC.invisibility_of_element_located(self.locators.POST_CREATED),
+                EC.any_of(
+                    EC.text_to_be_present_in_element_attribute(
+                        self.locators.POST_LAST_CONTENT,
+                        'contenteditable',
+                        'false'
+                    ),
+                    EC.none_of(
+                        EC.element_attribute_to_include(
+                            self.locators.POST_LAST_CONTENT,
+                            'contenteditable'
+                        )
+                    )
+                )
             )
         )
 
@@ -66,6 +82,10 @@ class ProfilePage(BasePage):
 
     def ClickPostDeleteBtn(self, aPost):
         cancel = self.FindIn(aPost, self.locators.POST_DELETE_BTN)
+        self.Click(cancel)
+
+    def ClickPostEditBtn(self, aPost):
+        cancel = self.FindIn(aPost, self.locators.POST_EDIT_BTN)
         self.Click(cancel)
 
     def UploadImage(self, aPost, aFilePath, aTimeout=5):

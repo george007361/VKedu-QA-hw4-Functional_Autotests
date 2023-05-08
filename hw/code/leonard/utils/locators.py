@@ -33,17 +33,23 @@ class ProfilePageLocators:
         '//div[@class="posts-container__posts-area"]//span[text()="Создать"]/../../../../..'
 
     )
+    POSTS_CONTAINER = (
+        By.CSS_SELECTOR, 'div.posts-container__posts-area'
+    )
     POST_LAST = (
         By.CSS_SELECTOR, 'div.post:last-of-type'
     )
     POST_CONTENT = (
         By.CSS_SELECTOR, 'div.post-content'
     )
+    POST_LAST_CONTENT = (
+        By.CSS_SELECTOR, 'div.post:last-of-type div.post-content'
+    )
     POST_CANCEL_BTN = (
         By.XPATH, '//span[text()="Отмена"]/..'
     )
     POST_SUBMIT_BTN = (
-        By.XPATH, '//span[text()="Создать"]/..'
+        By.CSS_SELECTOR, 'button[type="submit"]'
     )
     POST_DELETE_BTN = (
         By.XPATH, '//span[text()="Удалить"]/..'
@@ -56,4 +62,10 @@ class ProfilePageLocators:
     )
     POST_SELECTOR_TIER = (
         By.CSS_SELECTOR, 'select.dropbox__select[name="tier"]'
+    )
+    POST_EDIT_BTN = (
+        By.CSS_SELECTOR, 'div.post__header button'
+    )
+    POST_NOT_ALLOWED = (
+        By.CSS_SELECTOR, 'div.post__not-allowed'
     )

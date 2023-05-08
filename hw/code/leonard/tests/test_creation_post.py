@@ -7,20 +7,19 @@ from leonard.utils.base_case import BaseCase
 from leonard.pages.profile_page import ProfilePage
 from leonard.utils.help import RandomText
 
-'''
-Создание поста. Создание поста с ограниченным доступом.
-'''
-
 
 class TestCreationPost(BaseCase):
 
     @pytest.fixture(autouse=True, scope='function')
     def profile(self, setup, profileID):
-        self.currentPage = ProfilePage(self.driver, profileID, True)
+        self.currentPage = ProfilePage(
+            self.driver, profileID(self.asAuthor), True)
 
     @pytest.fixture(scope='function')
     def openCreator(self, profile):
         self.currentPage.ClickPostCreateBtn()
+        post = self.currentPage.GetCreatedPost()
+        return post
 
     def test_create_open(self):
         self.currentPage.ClickPostCreateBtn()
@@ -29,43 +28,39 @@ class TestCreationPost(BaseCase):
         assert content.get_attribute('contenteditable') == 'true'
 
     def test_create_close(self, openCreator):
-        post = self.currentPage.GetCreatedPost()
-        content = self.currentPage.GetPostContent(post)
+        content = self.currentPage.GetPostContent(openCreator)
 
         self.currentPage.ClickPostCreateBtn()
         self.currentPage.CheckStaleness(content)
 
     def test_create_cancel(self, openCreator):
         savedText = RandomText(10)
-        post = self.currentPage.GetCreatedPost()
-        content = self.currentPage.GetPostContent(post)
+        content = self.currentPage.GetPostContent(openCreator)
 
         content.clear()
         content.send_keys(savedText)
-        self.currentPage.ClickPostCancelBtn(post)
+        self.currentPage.ClickPostCancelBtn(openCreator)
 
-        self.currentPage.CheckStaleness(post)
+        self.currentPage.CheckStaleness(openCreator)
         lastPost = self.currentPage.GetLastPost()
         assert self.currentPage.GetPostContent(lastPost).text != savedText
 
     def test_create_save(self, openCreator):
         savedText = RandomText(100)
-        post = self.currentPage.GetCreatedPost()
-        content = self.currentPage.GetPostContent(post)
+        content = self.currentPage.GetPostContent(openCreator)
 
         content.clear()
         content.send_keys(savedText)
-        self.currentPage.ClickPostSubmitBtn(post)
+        self.currentPage.ClickPostSubmitBtn(openCreator)
 
         lastPost = self.currentPage.GetLastPost()
         assert self.currentPage.GetPostContent(lastPost).text == savedText
 
     def test_create_empty(self, openCreator):
-        post = self.currentPage.GetCreatedPost()
-        content = self.currentPage.GetPostContent(post)
+        content = self.currentPage.GetPostContent(openCreator)
 
         content.clear()
-        self.currentPage.ClickPostSubmitBtn(post, aTimeout=0)
+        self.currentPage.ClickPostSubmitBtn(openCreator, aTimeout=0)
 
         assert self.currentPage.GetCreatedPost().is_displayed() == True
         assert self.currentPage.Find(
@@ -75,8 +70,7 @@ class TestCreationPost(BaseCase):
     @ pytest.mark.xfail
     def test_hotkey_save(self, openCreator):
         savedText = RandomText(100)
-        post = self.currentPage.GetCreatedPost()
-        content = self.currentPage.GetPostContent(post)
+        content = self.currentPage.GetPostContent(openCreator)
 
         content.clear()
         content.send_keys(savedText)
@@ -91,30 +85,16 @@ class TestCreationPost(BaseCase):
         assert self.currentPage.GetPostContent(lastPost).text == savedText
 
     def test_creation_with_image(self, openCreator):
-        post = self.currentPage.GetCreatedPost()
-        content = self.currentPage.GetPostContent(post)
+        content = self.currentPage.GetPostContent(openCreator)
 
         content.clear()
         self.currentPage.UploadImage(
-            post,
+            openCreator,
             'hw/code/leonard/tests/test-image.jpg',
             20
         )
         savedText = content.text
-        self.currentPage.ClickPostSubmitBtn(post)
+        self.currentPage.ClickPostSubmitBtn(openCreator)
 
         lastPost = self.currentPage.GetLastPost()
         assert self.currentPage.GetPostContent(lastPost).text == savedText
-
-    # @ pytest.mark.parametrize('aOptionIdx', [])
-    # def test_creation_with_limitation(self, openCreator, aOptionIdx):
-    #     savedText = RandomText(100)
-    #     post = self.currentPage.GetCreatedPost()
-    #     content = self.currentPage.GetPostContent(post)
-
-    #     content.clear()
-    #     content.send_keys(savedText)
-    #     select = self.currentPage.GetSelectTierFromPost(
-    #         self.Find(self.currentPage.locators.POST_CREATED)
-    #     )
-    #     select.options
