@@ -28,18 +28,32 @@ class ProfilePageLocators:
     POST_CREATE_BTN = (
         By.CSS_SELECTOR, 'div.posts-container__title-area button'
     )
-    POST_CREATE_CONTENT = (
+    POST_CREATED = (
         By.XPATH,
-        '//div[@class="posts-container__posts-area"]//span[text()="Создать"]/../../../../..//div[contains(@class, "post-content")]'
-    )
-    POST_CREATER_SUBMIT_BTN = (
-        By.XPATH,
-        '//div[@class="posts-container__posts-area"]//span[text()="Создать"]/..'
-    )
-    POST_CREATER_CANCEL_BTN = (
-        By.XPATH,
-        '//div[@class="posts-container__posts-area"]//span[text()="Создать"]/../../button[@type="button"]'
+        '//div[@class="posts-container__posts-area"]//span[text()="Создать"]/../../../../..'
+
     )
     POST_LAST = (
-        By.CSS_SELECTOR, 'div.post:last-of-type div.post-content'
+        By.CSS_SELECTOR, 'div.post:last-of-type'
+    )
+    POST_CONTENT = (
+        By.CSS_SELECTOR, 'div.post-content'
+    )
+    POST_CANCEL_BTN = (
+        By.XPATH, '//span[text()="Отмена"]/..'
+    )
+    POST_SUBMIT_BTN = (
+        By.XPATH, '//span[text()="Создать"]/..'
+    )
+    POST_DELETE_BTN = (
+        By.XPATH, '//span[text()="Удалить"]/..'
+    )
+    POST_LOAD_FILE = (
+        By.CSS_SELECTOR, 'input[type="file"][accept*="jpg"]'
+    )
+    POST_IMAGES = (
+        By.CSS_SELECTOR, 'img.post-content__image'
+    )
+    POST_SELECTOR_TIER = (
+        By.CSS_SELECTOR, 'select.dropbox__select[name="tier"]'
     )

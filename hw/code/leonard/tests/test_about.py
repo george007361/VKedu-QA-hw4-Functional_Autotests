@@ -25,8 +25,7 @@ class TestAbout(BaseCase):
 
     @pytest.fixture(autouse=True, scope='function')
     def profile(self, setup, profileID):
-        self.driver.get('https://vdonate.ml/profile?id=' + profileID)
-        self.currentPage = ProfilePage(self.driver, profileID)
+        self.currentPage = ProfilePage(self.driver, profileID, True)
 
     @pytest.fixture(scope='function')
     def openeEditor(self, profile):
@@ -73,7 +72,7 @@ class TestAbout(BaseCase):
         savedText = RandomText(1001)
         self.currentPage.GetAboutContent().clear()
         self.currentPage.GetAboutContent().send_keys(savedText)
-        self.currentPage.ClickAboutSubmitBtn(timeout=0)
+        self.currentPage.ClickAboutSubmitBtn(aTimeout=0)
         assert self.currentPage.GetAboutContent().get_attribute('contenteditable') == 'true'
         assert self.currentPage.Find(
             BasePageLocators().NOTICE_LAST

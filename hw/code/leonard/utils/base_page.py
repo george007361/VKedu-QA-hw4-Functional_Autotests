@@ -4,6 +4,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 
+from leonard.utils.help import FindElementInElement
+
 
 class PageNotOpenedExeption(Exception):
     pass
@@ -12,31 +14,43 @@ class PageNotOpenedExeption(Exception):
 class BasePage(object):
     url = 'https://www.vdonate.ml'
 
-    def __init__(self, driver: WebDriver, load=False):
+    def __init__(self, driver: WebDriver, aLoad=False):
         self.driver = driver
-        if load:
+        if aLoad:
             self.driver.get(self.url)
         self.IsOpened()
 
-    def IsOpened(self, timeout=15):
+    def IsOpened(self, aTimeout=15):
         started = time.time()
-        while time.time() - started < timeout:
+        while time.time() - started < aTimeout:
             if self.driver.current_url == self.url:
                 return True
         raise PageNotOpenedExeption(
-            f'{self.url} did not open in {timeout} sec, current url {self.driver.current_url}')
+            f'{self.url} did not open in {aTimeout} sec, current url {self.driver.current_url}')
 
-    def Wait(self, timeout=5):
-        return WebDriverWait(self.driver, timeout=timeout)
+    def Wait(self, aTimeout=5):
+        return WebDriverWait(self.driver, timeout=aTimeout)
 
-    def Find(self, locator, timeout=5) -> WebElement:
-        return self.Wait(timeout).until(EC.visibility_of_element_located(locator))
+    def Find(self, aLocator, aTimeout=5, visibility=True) -> WebElement:
+        method = EC.visibility_of_element_located if visibility else EC.presence_of_element_located
+        return self.Wait(aTimeout).until(method(aLocator))
 
-    def Click(self, locator, timeout=5):
-        elem = self.Wait(timeout).until(EC.element_to_be_clickable(locator))
+    def FindIn(self, aElement: WebElement, aLocator, aTimeout=5, visibility=True) -> WebElement:
+        return self.Wait(aTimeout).until(
+            lambda _:
+                EC._element_if_visible(
+                    aElement.find_element(*aLocator), visibility
+                )
+        )
+
+    def CheckStaleness(self, aElement: WebElement, aTimeout=5):
+        return self.Wait(aTimeout).until(EC.staleness_of(aElement))
+
+    def Click(self, aLocator, aTimeout=5):
+        elem = self.Wait(aTimeout).until(EC.element_to_be_clickable(aLocator))
         elem.click()
 
-    def ClickAndWait(self, locator, timeout=5, check=lambda x: x != None):
-        self.Click(locator, timeout)
-        if timeout:
-            self.Wait(timeout).until(check)
+    def ClickAndWait(self, aLocator, aTimeout=5, aCheck=lambda x: x != None):
+        self.Click(aLocator)
+        if aTimeout:
+            self.Wait(aTimeout).until(aCheck)

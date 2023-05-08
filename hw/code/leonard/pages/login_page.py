@@ -6,8 +6,8 @@ class LoginPage(BasePage):
     locators = LoginPageLocators()
     url = 'https://vdonate.ml/login'
 
-    def Login(self, username, password):
-        self.Find(self.locators.USERNAME).send_keys(username)
-        self.Find(self.locators.PASSWORD).send_keys(password)
+    def Login(self, aUsername, aPassword):
+        self.Find(self.locators.USERNAME).send_keys(aUsername)
+        self.Find(self.locators.PASSWORD).send_keys(aPassword)
         self.Click(self.locators.SUBMIT_BTN)
         return

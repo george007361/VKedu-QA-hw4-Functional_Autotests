@@ -2,6 +2,6 @@ import random
 import string
 
 
-def RandomText(length):
+def RandomText(aLength):
     letters = string.ascii_letters
-    return ''.join(random.choice(letters) for _ in range(length))
+    return ''.join(random.choice(letters) for _ in range(aLength))
