@@ -6,7 +6,7 @@ from helpers.random_data import RandomData
 from helpers.popup_notifications import PopupNotification
 from helpers.redirects import Redirect
 
-@pytest.mark.skip()
+# @pytest.mark.skip()
 class TestSignup(BaseCase):
     authorize = False
 

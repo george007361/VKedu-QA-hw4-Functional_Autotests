@@ -7,25 +7,35 @@ from base_case import BaseCase
 from helpers.random_data import RandomData
 from pages.search_page import SearchPage
 
-@pytest.mark.skip()
+# @pytest.mark.skip()
 class TestSearch(BaseCase):
     authorize = True
 
+    # @pytest.mark.skip()
     def test_no_results(self):
         search_page = SearchPage(self.browser)
         search_page.search(RandomData.string(15, RandomData.latin))
         search_page.is_no_results()
-
+    
+    # @pytest.mark.skip()
     def test_user_exists(self):
         search_page = SearchPage(self.browser)
         search_page.search(os.getenv("LOGIN"))
         search_page.is_users_in_list(os.getenv("LOGIN"))
 
+    # @pytest.mark.skip()
     def test_search_by_enter(self):
         search_page = SearchPage(self.browser)
         search_page.search_by_enter(os.getenv("LOGIN"))
         search_page.is_users_in_list(os.getenv("LOGIN"))
 
+    # @pytest.mark.skip()
+    def empty_query(self):
+        search_page = SearchPage(self.browser)
+        search_page.search('')
+        search_page.is_users_in_list(os.getenv("LOGIN"))
+
+    # @pytest.mark.skip()
     def test_user_part_name(self):
         search_page = SearchPage(self.browser)
         name = os.getenv("LOGIN")
@@ -34,6 +44,7 @@ class TestSearch(BaseCase):
         search_page.search(key)
         search_page.is_users_in_list(name)
 
+    # @pytest.mark.skip()
     def test_user_two_words(self):
             search_page = SearchPage(self.browser)
 

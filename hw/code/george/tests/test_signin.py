@@ -17,11 +17,13 @@ class TestSignin(BaseCase):
             self.passwd = passwd
             self.msg = msg
 
+    # @pytest.mark.skip()
     def test_signin_success(self):
         login_page = SigninPage(self.browser)
         login_page.signin(os.environ["LOGIN"], os.environ["PASSWORD"])
         Redirect.redirected(login_page)
 
+    # @pytest.mark.skip()
     @pytest.mark.parametrize('case',
                              [
                                  # Несуществующий пользователь

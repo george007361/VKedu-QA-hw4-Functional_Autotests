@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 
 from pages.base_page import BasePage
 
@@ -17,4 +18,8 @@ class SigninPage(BasePage):
         self.find(self.Locators.PASSWORD_INPUT).send_keys(passwd)
         
         self.find(self.Locators.LOGIN_BUTTON).click()
+        try:
+            self.wait(1).until(EC.url_changes(self.url))
+        except:
+            self.wait(1).until(EC.element_to_be_clickable(self.Locators.LOGIN_BUTTON))
 

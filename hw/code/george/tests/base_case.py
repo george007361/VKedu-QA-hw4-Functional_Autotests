@@ -7,11 +7,13 @@ from pages.signin_page import SigninPage
 class BaseCase:
     authorize = True
 
-    @pytest.fixture(autouse=True)
+    @pytest.fixture(autouse=True, scope='function')
     def setup(self, browser : WebDriver, request: pytest.FixtureRequest):
         self.browser = browser
-        self.currentPage = SigninPage(self.browser)
 
         if self.authorize:
-            self.currentPage.signin(os.environ["LOGIN"], os.environ["PASSWORD"])
-            self.currentPage = FeedPage(self.browser)
+            cookies = request.getfixturevalue('cookies')
+            for cookie in cookies:
+                self.browser.add_cookie(cookie)
+            self.browser.refresh()
+
