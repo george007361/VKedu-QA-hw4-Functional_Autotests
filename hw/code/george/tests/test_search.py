@@ -1,8 +1,7 @@
-
 import os
 import re
-
 import pytest
+
 from base_case import BaseCase
 from helpers.random_data import RandomData
 from pages.search_page import SearchPage
@@ -16,7 +15,7 @@ class TestSearch(BaseCase):
         search_page = SearchPage(self.browser)
         search_page.search(RandomData.string(15, RandomData.latin))
         search_page.is_no_results()
-    
+
     # @pytest.mark.skip()
     def test_user_exists(self):
         search_page = SearchPage(self.browser)
@@ -46,13 +45,13 @@ class TestSearch(BaseCase):
 
     # @pytest.mark.skip()
     def test_user_two_words(self):
-            search_page = SearchPage(self.browser)
+        search_page = SearchPage(self.browser)
 
-            name = os.getenv("LOGIN")
-            
-            words = re.split('_|\s', name)
-            
-            key = ' '.join(words[:-1])
+        name = os.getenv("LOGIN")
 
-            search_page.search(key)
-            search_page.is_users_in_list(name)
+        words = re.split('_|\s', name)
+
+        key = ' '.join(words[:-1])
+
+        search_page.search(key)
+        search_page.is_users_in_list(name)

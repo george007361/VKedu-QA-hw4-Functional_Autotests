@@ -12,14 +12,11 @@ class SigninPage(BasePage):
         SIGNUP_LINK = (By.XPATH, '//a[(@href="/signup")]')
 
     def signin(self, user, passwd):
-        self.render(self.url)
+        self.type_to(self.Locators.LOGIN_INPUT, user)
+        self.type_to(self.Locators.PASSWORD_INPUT, passwd)
+        self.click(self.Locators.LOGIN_BUTTON)
 
-        self.find(self.Locators.LOGIN_INPUT).send_keys(user)
-        self.find(self.Locators.PASSWORD_INPUT).send_keys(passwd)
-        
-        self.find(self.Locators.LOGIN_BUTTON).click()
-        try:
-            self.wait(1).until(EC.url_changes(self.url))
-        except:
-            self.wait(1).until(EC.element_to_be_clickable(self.Locators.LOGIN_BUTTON))
-
+        self.wait(2).until(EC.any_of(
+            EC.url_changes(self.url),
+            EC.element_to_be_clickable(self.Locators.LOGIN_BUTTON),
+        ))

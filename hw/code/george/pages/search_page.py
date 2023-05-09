@@ -22,33 +22,23 @@ class SearchPage(BasePage):
             return (By.XPATH, f'//div[contains(@class, "search-page__list-area") and contains(text(), "{text}")]')
 
     def search(self, query: string):
-        self.render(self.url)
-
-        self.find(self.Locators.SEARCH_LINE).send_keys(query)
-        self.find(self.Locators.SEARCH_BTN).click()
-
+        self.type_to(self.Locators.SEARCH_LINE, query)
+        self.click(self.Locators.SEARCH_BTN)
         self.wait().until(EC.element_to_be_clickable(self.Locators.SEARCH_BTN))
 
     def search_by_enter(self, query: string):
-        self.render(self.url)
-
-        elem = self.find(self.Locators.SEARCH_LINE)
-        elem.send_keys(query)
-        elem.send_keys(Keys.ENTER)
-
+        self.type_to(self.Locators.SEARCH_LINE, query)
+        self.type_to(self.Locators.SEARCH_LINE,Keys.ENTER)
         self.wait().until(EC.element_to_be_clickable(self.Locators.SEARCH_BTN))
 
     def is_users_in_list(self, names):
         for name in names:
             self.find(self.Locators.RESULT_ITEM(name))
+    
+    def get_link_to_user(self, name):
+        link = self.find(self.Locators.RESULT_ITEM(name)).get_attribute('href')
+        return link
 
     def is_no_results(self):
         self.find(self.Locators.RESULTS_INFO('ничего не найдено'))
 
-    # def signin(self, user, passwd):
-    #     self.render(self.url)
-
-    #     self.find(self.Locators.LOGIN_INPUT).send_keys(user)
-    #     self.find(self.Locators.PASSWORD_INPUT).send_keys(passwd)
-
-    #     self.find(self.Locators.LOGIN_BUTTON).click()
