@@ -1,5 +1,5 @@
-from pages.notification_page import NotificationPage
-from tests.base_case import BaseCase
+from zenehu.pages.notification_page import NotificationPage
+from zenehu.tests.base_case import BaseCase
 
 
 class TestNotifications(BaseCase):

@@ -34,7 +34,7 @@ def cookies(pytestconfig):
     driver.get(pytestconfig.getoption('url'))
 
     login_page = LoginPage(driver)
-    login_page.login(os.getenv('USERNAME'), os.getenv('PASSWORD'))
+    login_page.login(os.getenv('IVAN_USERNAME'), os.getenv('IVAN_PASSWORD'))
 
     api_url = "https://vdonate.ml/api/v1"
     driver.get(api_url)

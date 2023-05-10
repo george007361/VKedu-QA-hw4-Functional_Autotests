@@ -44,7 +44,7 @@ def cookies(pytestconfig):
     driver.get(pytestconfig.getoption('url'))
 
     login_page = LoginPage(driver)
-    login_page.login(os.getenv('USERNAME'), os.getenv('PASSWORD'))
+    login_page.login(os.getenv('ALB_USERNAME'), os.getenv('ALB_PASSWORD'))
 
     api_url = "https://vdonate.ml/api/v1"
     driver.get(api_url)
@@ -57,7 +57,7 @@ def cookies(pytestconfig):
 @pytest.fixture(scope='session', autouse=True)
 def make_notifications(first_driver, second_driver: WebDriver):
     login_page_1 = LoginPage(first_driver)
-    login_page_1.login(os.getenv('USERNAME'), os.getenv('PASSWORD'))
+    login_page_1.login(os.getenv('ALB_USERNAME'), os.getenv('ALB_PASSWORD'))
 
     profile_page = ProfilePage(first_driver)
     profile_page.open()
@@ -65,7 +65,7 @@ def make_notifications(first_driver, second_driver: WebDriver):
     url = profile_page.url
 
     login_page_2 = LoginPage(second_driver)
-    login_page_2.login(os.getenv('USERNAME_2'), os.getenv('PASSWORD_2'))
+    login_page_2.login(os.getenv('ALB_USERNAME_2'), os.getenv('ALB_PASSWORD_2'))
 
     second_driver.get(url)
 

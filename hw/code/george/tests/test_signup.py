@@ -1,10 +1,10 @@
-
 import pytest
+
 from base_case import BaseCase
-from pages.signup_page import SignupPage
-from helpers.random_data import RandomData
-from helpers.popup_notifications import PopupNotification
-from helpers.redirects import Redirect
+from george.pages.signup_page import SignupPage
+from george.helpers.random_data import RandomData
+from george.helpers.popup_notifications import PopupNotification
+from george.helpers.redirects import Redirect
 
 # @pytest.mark.skip()
 class TestSignup(BaseCase):

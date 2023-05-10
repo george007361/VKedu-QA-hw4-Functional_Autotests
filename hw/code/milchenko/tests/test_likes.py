@@ -1,11 +1,12 @@
 import os
-from tests.base_case import BaseCase
-from pages.profile_page import ProfilePage
-from pages.login_page import LoginPage
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
+
+from milchenko.tests.base_case import BaseCase
+from milchenko.pages.profile_page import ProfilePage
+from milchenko.pages.login_page import LoginPage
 
 def make_driver():
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
@@ -48,7 +49,7 @@ class TestLikes(BaseCase):
        url = profile_page.url
 
        login_page_2 = LoginPage(second_driver)
-       login_page_2.login(os.getenv('USERNAME_2'), os.getenv('PASSWORD_2'))
+       login_page_2.login(os.getenv('IVAN_USERNAME_2'), os.getenv('IVAN_PASSWORD_2'))
 
        second_driver.get(url)       
 
@@ -61,7 +62,7 @@ class TestLikes(BaseCase):
        profile_page.click(profile_page.Locators.NOTICE_BELL)
        notification = profile_page.find(profile_page.Locators.NOTIFICATION_FIELD)
 
-       assert notification.text == 'Пользователь ' + os.getenv('USERNAME_2') + '\nоценил ваш пост.'
+       assert notification.text == 'Пользователь ' + os.getenv('IVAN_USERNAME_2') + '\nоценил ваш пост.'
 
        profile_page.delete_post()
        profile_page.delete_notifications()
@@ -79,7 +80,7 @@ class TestLikes(BaseCase):
         url = profile_page.url
 
         login_page_2 = LoginPage(second_driver)
-        login_page_2.login(os.getenv('USERNAME_2'), os.getenv('PASSWORD_2'))
+        login_page_2.login(os.getenv('IVAN_USERNAME_2'), os.getenv('IVAN_PASSWORD_2'))
 
         second_driver.get(url)       
 
@@ -93,7 +94,7 @@ class TestLikes(BaseCase):
 
         notification = profile_page.find(profile_page.Locators.NOTIFICATION_FIELD)
 
-        assert notification.text == 'Пользователь ' + os.getenv('USERNAME_2') + '\nоценил ваш пост.'
+        assert notification.text == 'Пользователь ' + os.getenv('IVAN_USERNAME_2') + '\nоценил ваш пост.'
 
         profile_page.click(profile_page.Locators.NOTICE_BELL)
         profile_page.wait().until(EC.presence_of_element_located(profile_page.Locators.NOTIFICATION_FIELD))

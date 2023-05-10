@@ -1,7 +1,8 @@
 import pytest
-from selenium.webdriver.remote.webdriver import WebDriver
 import os
-from pages.feed_page import FeedPage
+
+from selenium.webdriver.remote.webdriver import WebDriver
+from george.pages.feed_page import FeedPage
 
 class BaseCase:
     authorize = True

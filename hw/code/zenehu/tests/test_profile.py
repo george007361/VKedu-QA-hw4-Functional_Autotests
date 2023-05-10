@@ -2,9 +2,9 @@ import os
 
 import pytest
 
-from pages.profile_page import ProfilePage
-from tests.base_case import BaseCase
-from utils.random_string import random_string
+from zenehu.pages.profile_page import ProfilePage
+from zenehu.tests.base_case import BaseCase
+from zenehu.utils.random_string import random_string
 
 
 class TestProfile(BaseCase):
@@ -34,7 +34,7 @@ class TestProfile(BaseCase):
         profile_page.open_edit_page()
 
         email = random_string(10) + "@" + random_string(5) + ".ru"
-        profile_page.edit_profile(email, os.getenv("USERNAME"), os.getenv("PASSWORD"), os.getenv("PASSWORD"))
+        profile_page.edit_profile(email, os.getenv("ALB_USERNAME"), os.getenv("ALB_PASSWORD"), os.getenv("ALB_PASSWORD"))
 
         profile_page.open_edit_page()
 
@@ -107,7 +107,7 @@ class TestProfile(BaseCase):
         profile_page = ProfilePage(self.browser)
         profile_page.open_edit_page()
 
-        profile_page.edit_profile(email, "", os.getenv("PASSWORD"), os.getenv("PASSWORD"))
+        profile_page.edit_profile(email, "", os.getenv("ALB_PASSWORD"), os.getenv("ALB_PASSWORD"))
 
         if expected_error:
             assert profile_page.find(profile_page.Locators.FIRST_POPUP).text == expected_error
@@ -149,7 +149,7 @@ class TestProfile(BaseCase):
         profile_page = ProfilePage(self.browser)
         profile_page.open_edit_page()
 
-        profile_page.edit_profile(email, "", os.getenv("PASSWORD"), os.getenv("PASSWORD"))
+        profile_page.edit_profile(email, "", os.getenv("ALB_PASSWORD"), os.getenv("ALB_PASSWORD"))
 
         assert profile_page.find(profile_page.Locators.FIRST_POPUP).text == \
                "Неверная почта. До @ разрешены латиница, числа, символы !#$%&'*+-/=?^_`{|}~ и точка-разделитель"
@@ -186,7 +186,7 @@ class TestProfile(BaseCase):
         profile_page = ProfilePage(self.browser)
         profile_page.open_edit_page()
 
-        profile_page.edit_profile("", username, os.getenv("PASSWORD"), os.getenv("PASSWORD"))
+        profile_page.edit_profile("", username, os.getenv("ALB_PASSWORD"), os.getenv("ALB_PASSWORD"))
 
         assert profile_page.find(profile_page.Locators.FIRST_POPUP).text == expected_error
 
@@ -228,8 +228,8 @@ class TestProfile(BaseCase):
         profile_page.open_edit_page()
 
         email = random_string(10) + "@" + random_string(5) + ".ru"
-        profile_page.edit_profile(email, os.getenv("USERNAME"),
-                                  os.getenv("PASSWORD"),
-                                  os.getenv("PASSWORD"))
+        profile_page.edit_profile(email, os.getenv("ALB_USERNAME"),
+                                  os.getenv("ALB_PASSWORD"),
+                                  os.getenv("ALB_PASSWORD"))
 
         profile_page.is_clickable(profile_page.Locators.PROFILE_EDIT_BUTTON)

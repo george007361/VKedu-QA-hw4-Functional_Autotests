@@ -1,7 +1,6 @@
 from selenium.webdriver.common.by import By
 
-from pages.base_page import BasePage
-
+from milchenko.pages.base_page import BasePage
 
 class LoginPage(BasePage):
     url = 'https://vdonate.ml/login'

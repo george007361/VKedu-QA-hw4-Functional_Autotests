@@ -1,7 +1,8 @@
-from pages.author_subscriptions_page import AuthorSubscriptionsPage
-from tests.base_case import BaseCase
-from selenium.webdriver.support import expected_conditions as EC
 import pytest
+from selenium.webdriver.support import expected_conditions as EC
+
+from milchenko.pages.author_subscriptions_page import AuthorSubscriptionsPage
+from milchenko.tests.base_case import BaseCase
 
 class TestAuthorSubscriptions(BaseCase):
     authorize = True

@@ -1,30 +1,60 @@
-# <<<<<<< leonard
-LOGIN="Типичный программист"
-PASSWORD=testpass
-ID=2
-LOGIN_DONATOR=leonard
-PASSWORD_DONATOR=leoleo
-ID_DONATOR=9
+# Leonard
+LEO_LOGIN="Типичный программист"
+LEO_PASSWORD=testpass
+LEO_ID=2
+LEO_LOGIN_DONATOR=leonard
+LEO_PASSWORD_DONATOR=leoleo
+LEO_ID_DONATOR=9
 
-all:
-	LOGIN=$(LOGIN) PASSWORD=$(PASSWORD) ID=$(ID) LOGIN_DONATOR=$(LOGIN_DONATOR) PASSWORD_DONATOR=$(PASSWORD_DONATOR) ID_DONATOR=$(ID_DONATOR) pytest-3 -q hw/code  --vnc
+# George
+GEORGE_LOGIN=george_test_acc
+GEORGE_PASSWORD=12345678
 
-about:
-	LOGIN=$(LOGIN) PASSWORD=$(PASSWORD) ID=$(ID) LOGIN_DONATOR=$(LOGIN_DONATOR) PASSWORD_DONATOR=$(PASSWORD_DONATOR) ID_DONATOR=$(ID_DONATOR) pytest-3 -q -k "TestAbout" hw/code  --vnc
+# Albert
+ALB_USERNAME=zenehu_test_1
+ALB_PASSWORD=12345678
+ALB_USERNAME_2=zenehu_test_2
+ALB_PASSWORD_2=12345678
 
-post/create:
-	LOGIN=$(LOGIN) PASSWORD=$(PASSWORD) ID=$(ID) LOGIN_DONATOR=$(LOGIN_DONATOR) PASSWORD_DONATOR=$(PASSWORD_DONATOR) ID_DONATOR=$(ID_DONATOR) pytest-3 -q -k "TestCreationPost" hw/code  --vnc
-# =======
-# LOGIN=george_test_acc
-# PASSWORD=12345678
+# Ivan
+IVAN_USERNAME=milchenko
+IVAN_PASSWORD=admin 
+IVAN_USERNAME_2=author 
+IVAN_PASSWORD_2=author
 
-local:
-	LOGIN=$(LOGIN) PASSWORD=$(PASSWORD) pytest hw/code/ --browser chrome
+all: 
+	LEO_LOGIN=$(LEO_LOGIN) \
+	LEO_PASSWORD=$(LEO_PASSWORD) \
+	LEO_ID=$(LEO_ID) \
+	LEO_LOGIN_DONATOR=$(LEO_LOGIN_DONATOR) \
+	LEO_PASSWORD_DONATOR=$(LEO_PASSWORD_DONATOR) \
+	LEO_ID_DONATOR=$(LEO_ID_DONATOR) \
+	GEORGE_LOGIN=$(GEORGE_LOGIN) \
+	GEORGE_PASSWORD=$(GEORGE_PASSWORD) \
+	ALB_USERNAME=$(ALB_USERNAME) \
+	ALB_PASSWORD=$(ALB_PASSWORD) \
+	ALB_USERNAME_2=$(ALB_USERNAME_2) \
+	ALB_PASSWORD_2=$(ALB_PASSWORD_2) \
+	IVAN_USERNAME=$(IVAN_USERNAME) \
+	IVAN_PASSWORD=$(IVAN_PASSWORD) \
+	IVAN_USERNAME_2=$(IVAN_USERNAME_2) \
+	IVAN_PASSWORD_2=$(IVAN_PASSWORD_2) \
+	pytest -q -k "TestEditPost" hw/code/ --browser chrome
 
-selenoid:
-	LOGIN=$(LOGIN) PASSWORD=$(PASSWORD) pytest hw/code/ --browser chrome --selenoid
+# all:
+# 	LOGIN=$(LOGIN) PASSWORD=$(PASSWORD) ID=$(ID) LOGIN_DONATOR=$(LOGIN_DONATOR) PASSWORD_DONATOR=$(PASSWORD_DONATOR) ID_DONATOR=$(ID_DONATOR) pytest-3 -q hw/code  --vnc
 
-vnc:
-	LOGIN=$(LOGIN) PASSWORD=$(PASSWORD) pytest hw/code/ --browser chrome --selenoid --vnc
-	
-# >>>>>>> vdonate
+# about:
+# 	LOGIN=$(LOGIN) PASSWORD=$(PASSWORD) ID=$(ID) LOGIN_DONATOR=$(LOGIN_DONATOR) PASSWORD_DONATOR=$(PASSWORD_DONATOR) ID_DONATOR=$(ID_DONATOR) pytest-3 -q -k "TestAbout" hw/code  --vnc
+
+# post/create:
+# 	LOGIN=$(LOGIN) PASSWORD=$(PASSWORD) ID=$(ID) LOGIN_DONATOR=$(LOGIN_DONATOR) PASSWORD_DONATOR=$(PASSWORD_DONATOR) ID_DONATOR=$(ID_DONATOR) pytest-3 -q -k "TestCreationPost" hw/code  --vnc
+
+# local:
+# 	LOGIN=$(LOGIN) PASSWORD=$(PASSWORD) pytest hw/code/ --browser chrome
+
+# selenoid:
+# 	LOGIN=$(LOGIN) PASSWORD=$(PASSWORD) pytest hw/code/ --browser chrome --selenoid
+
+# vnc:
+# 	LOGIN=$(LOGIN) PASSWORD=$(PASSWORD) pytest hw/code/ --browser chrome --selenoid --vnc

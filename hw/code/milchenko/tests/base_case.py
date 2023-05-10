@@ -1,12 +1,10 @@
 import os
-
 import pytest
 from _pytest.fixtures import FixtureRequest
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from pages.login_page import LoginPage
-from pages.profile_page import ProfilePage
-
+from milchenko.pages.login_page import LoginPage
+from milchenko.pages.profile_page import ProfilePage
 
 class BaseCase:
     authorize = True

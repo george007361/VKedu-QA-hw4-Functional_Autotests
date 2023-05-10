@@ -49,8 +49,8 @@ def driverFactory(pytestconfig):
 
 @pytest.fixture(scope='session')
 def profileID():
-    idAuthor = os.environ['ID']
-    idDonator = os.environ['ID_DONATOR']
+    idAuthor = os.environ['LEO_ID']
+    idDonator = os.environ['LEO_ID_DONATOR']
 
     def _predicate(aAsAuthor: bool):
         return idAuthor if aAsAuthor else idDonator
@@ -59,15 +59,15 @@ def profileID():
 
 @pytest.fixture(scope='session')
 def credentialsAuthor():
-    login = os.environ['LOGIN']
-    password = os.environ['PASSWORD']
+    login = os.environ['LEO_LOGIN']
+    password = os.environ['LEO_PASSWORD']
     return login, password
 
 
 @pytest.fixture(scope='session')
 def credentialsDonator():
-    login = os.environ['LOGIN_DONATOR']
-    password = os.environ['PASSWORD_DONATOR']
+    login = os.environ['LEO_LOGIN_DONATOR']
+    password = os.environ['LEO_PASSWORD_DONATOR']
     return login, password
 
 

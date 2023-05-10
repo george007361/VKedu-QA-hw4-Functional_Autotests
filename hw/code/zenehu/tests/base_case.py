@@ -4,9 +4,9 @@ import pytest
 from _pytest.fixtures import FixtureRequest
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from pages.login_page import LoginPage
-from pages.notification_page import NotificationPage
-from pages.profile_page import ProfilePage
+from zenehu.pages.login_page import LoginPage
+from zenehu.pages.notification_page import NotificationPage
+from zenehu.pages.profile_page import ProfilePage
 
 
 class BaseCase:

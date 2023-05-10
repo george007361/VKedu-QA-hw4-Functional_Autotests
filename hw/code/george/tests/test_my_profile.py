@@ -1,12 +1,12 @@
 import pytest
 
-from time import sleep
 from base_case import BaseCase
-from helpers.random_data import RandomData
-from pages.signup_page import SignupPage
-from pages.feed_page import FeedPage
-from pages.my_profile_page import MyProfilePage
-from pages.user_profile_page import UserProfilePage
+
+from george.helpers.random_data import RandomData
+from george.pages.signup_page import SignupPage
+from george.pages.feed_page import FeedPage
+from george.pages.my_profile_page import MyProfilePage
+from george.pages.user_profile_page import UserProfilePage
 
 class TestUserProfile(BaseCase):
     authorize = False

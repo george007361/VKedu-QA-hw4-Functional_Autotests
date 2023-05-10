@@ -1,4 +1,4 @@
-from pages.base_page import BasePage
+from zenehu.pages.base_page import BasePage
 
 
 class FeedPage(BasePage):

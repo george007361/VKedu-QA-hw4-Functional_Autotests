@@ -1,7 +1,7 @@
-from tests.base_case import BaseCase
-from pages.profile_page import ProfilePage
 from selenium.webdriver.support import expected_conditions as EC
 
+from milchenko.tests.base_case import BaseCase
+from milchenko.pages.profile_page import ProfilePage
 
 class TestComments(BaseCase):
     authorize = True

@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 
-from pages.feed_page import FeedPage
+from zenehu.pages.feed_page import FeedPage
 
 
 class NotificationPage(FeedPage):

@@ -1,8 +1,9 @@
 import string
-from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver import Keys
+
+from pages.base_page import BasePage
 
 class SearchPage(BasePage):
     url = 'https://vdonate.ml/search'

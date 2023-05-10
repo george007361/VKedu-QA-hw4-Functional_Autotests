@@ -3,9 +3,10 @@ import os
 from selenium.webdriver.support import expected_conditions as EC
 
 from base_case import BaseCase
-from pages.signin_page import SigninPage
-from helpers.popup_notifications import PopupNotification
-from helpers.redirects import Redirect
+
+from george.pages.signin_page import SigninPage
+from george.helpers.popup_notifications import PopupNotification
+from george.helpers.redirects import Redirect
 
 # @pytest.mark.skip()
 class TestSignin(BaseCase):
@@ -20,7 +21,7 @@ class TestSignin(BaseCase):
     # @pytest.mark.skip()
     def test_signin_success(self):
         login_page = SigninPage(self.browser)
-        login_page.signin(os.environ["LOGIN"], os.environ["PASSWORD"])
+        login_page.signin(os.environ["GEORGE_LOGIN"], os.environ["GEORGE_PASSWORD"])
         Redirect.redirected(login_page)
 
     # @pytest.mark.skip()
@@ -32,7 +33,7 @@ class TestSignin(BaseCase):
 
                                  # Неверный пароль
                                  CaseData(
-                                     os.environ["LOGIN"], "wrong_password", 'Неверный пароль'),
+                                     os.environ["GEORGE_LOGIN"], "wrong_password", 'Неверный пароль'),
                              ])
     def test_signin_fail(self, case : CaseData):
         login_page = SigninPage(self.browser)
