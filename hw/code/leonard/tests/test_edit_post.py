@@ -29,7 +29,7 @@ class TestEditPost(BaseCase):
         content.clear()
         self.currentPage.UploadImage(
             post,
-            'hw/code/leonard/tests/test-image.jpg',
+            'hw/code/leonard/uploads/test-image.jpg',
             20
         )
         self.currentPage.ClickPostSubmitBtn(post)
