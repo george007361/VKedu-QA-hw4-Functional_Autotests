@@ -5,6 +5,41 @@ from selenium import webdriver
 from leonard.pages.login_page import LoginPage
 from leonard.pages.feed_page import FeedPage
 from leonard.pages.api_page import ApiPage
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+from _pytest.config import Config
+
+
+def GetDriver(config: Config):
+    browser = config.getoption('browser')
+    url = config.getoption('url')
+    vnc = config.getoption('vnc')
+    selenoid = config.getoption('selenoid')
+
+    if browser == 'chrome':
+        options = webdriver.ChromeOptions()
+        options.set_capability('browserName', 'chrome')
+        options.set_capability('browserVersion', '112.0')
+        if vnc:
+            options.set_capability('selenoid:options', {
+                'enableVNC': True
+            })
+        if selenoid:
+            driver = webdriver.Remote(
+                'http://127.0.0.1:4444/wd/hub',
+                options=options
+            )
+        else:
+            driver = webdriver.Chrome(
+                service=Service(ChromeDriverManager().install()),
+                options=options,
+            )
+    else:
+        raise RuntimeError(f'Unsupported browser: "{browser}"')
+
+    driver.get(url)
+    driver.maximize_window()
+    return driver
 
 
 @pytest.fixture()
@@ -12,33 +47,8 @@ def driverFactory(pytestconfig):
     drivers = []
 
     def _driver():
-        browser = pytestconfig.getoption('browser')
-        url = pytestconfig.getoption('url')
-        vnc = pytestconfig.getoption('vnc')
-
-        if browser == 'chrome':
-            options = webdriver.ChromeOptions()
-            options.set_capability('browserName', 'chrome')
-            options.set_capability('browserVersion', '112.0')
-        elif browser == 'firefox':
-            options = webdriver.FirefoxOptions()
-            options.set_capability('browserName', 'firefox')
-            options.set_capability('browserVersion', '112.0')
-        else:
-            raise RuntimeError(f'Unsupported browser: "{browser}"')
-
-        if vnc:
-            options.set_capability('selenoid:options', {
-                'enableVNC': True
-            })
-
-        driver = webdriver.Remote(
-            'http://127.0.0.1:4444/wd/hub',
-            options=options
-        )
+        driver = GetDriver(pytestconfig)
         drivers.append(driver)
-        driver.get(url)
-        driver.maximize_window()
         return driver
 
     yield _driver
@@ -71,29 +81,8 @@ def credentialsDonator():
     return login, password
 
 
-def GetDriver(aBrowserName):
-    if aBrowserName == 'chrome':
-        options = webdriver.ChromeOptions()
-        options.set_capability('browserName', 'chrome')
-        options.set_capability('browserVersion', '112.0')
-    elif aBrowserName == 'firefox':
-        options = webdriver.FirefoxOptions()
-        options.set_capability('browserName', 'firefox')
-        options.set_capability('browserVersion', '112.0')
-    else:
-        raise RuntimeError(f'Unsupported browser: "{aBrowserName}"')
-
-    driver = webdriver.Remote(
-        'http://127.0.0.1:4444/wd/hub',
-        options=options
-    )
-    driver.maximize_window()
-    return driver
-
-
 def GetCookies(credentials, config):
-    driver = GetDriver(config.getoption('browser'))
-    driver.get(config.getoption('url'))
+    driver = GetDriver(config)
 
     loginPage = LoginPage(driver)
     loginPage.Login(*credentials)
