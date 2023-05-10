@@ -39,7 +39,7 @@ all:
 	IVAN_PASSWORD=$(IVAN_PASSWORD) \
 	IVAN_USERNAME_2=$(IVAN_USERNAME_2) \
 	IVAN_PASSWORD_2=$(IVAN_PASSWORD_2) \
-	pytest -q -k "TestEditPost" hw/code/ --browser chrome
+	pytest hw/code/ --browser chrome
 
 # all:
 # 	LOGIN=$(LOGIN) PASSWORD=$(PASSWORD) ID=$(ID) LOGIN_DONATOR=$(LOGIN_DONATOR) PASSWORD_DONATOR=$(PASSWORD_DONATOR) ID_DONATOR=$(ID_DONATOR) pytest-3 -q hw/code  --vnc
