@@ -3,3 +3,5 @@
 # =======
 LOGIN='george_test_acc' PASSWORD='12345678' pytest hw/code/ --browser chrome
 # >>>>>>> vdonate
+# USERNAME='milchenko' PASSWORD='admin' USERNAME_2='author' PASSWORD_2='author' pytest hw/code
+
