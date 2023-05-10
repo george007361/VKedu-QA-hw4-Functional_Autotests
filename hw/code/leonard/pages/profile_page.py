@@ -1,5 +1,4 @@
-import time
-import webbrowser
+import os
 from leonard.utils.locators import ProfilePageLocators
 from leonard.utils.base_page import BasePage
 from selenium.webdriver.support import expected_conditions as EC
@@ -93,6 +92,8 @@ class ProfilePage(BasePage):
             self.FindIn(aPost, self.locators.POST_CONTENT)
                 .find_elements(*self.locators.POST_IMAGES)
         )
+        if (aFilePath[0] != '/'):
+            aFilePath = os.path.abspath(aFilePath)
         self.FindIn(aPost, self.locators.POST_LOAD_FILE, visibility=False)\
             .send_keys(aFilePath)
         self.Wait(aTimeout).until(
