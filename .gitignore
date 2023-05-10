@@ -1,0 +1,6 @@
+hw/__pycache__
+hw/code/milchenko/__pycache__
+hw/code/milchenko/pages/__pycache__
+hw/code/milchenko/tests/__pycache__
+.vscode
+.pytest_cache
