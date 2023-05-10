@@ -187,7 +187,7 @@ class ProfilePage(BasePage):
 
     def open_comments(self):
         self.click(self.Locators.COMMENT_BUTTON)
-        self.wait().until(EC.element_to_be_clickable(self.Locators.COMMENT_FIELD))
+        self.wait().until(EC.element_to_be_clickable(self.Locators.COMMENT_SEND))
 
     def close_comments(self):
         self.click(self.Locators.COMMENT_BUTTON)

@@ -56,7 +56,6 @@ class TestLikes(BaseCase):
        liker = ProfilePage(second_driver)
        liker.click_like_button()
 
-       profile_page.wait()
        first_driver.refresh()
 
        profile_page.click(profile_page.Locators.NOTICE_BELL)
