@@ -20,11 +20,11 @@ def GetDriver(config: Config):
         options = webdriver.ChromeOptions()
         options.set_capability('browserName', 'chrome')
         options.set_capability('browserVersion', '112.0')
-        if vnc:
-            options.set_capability('selenoid:options', {
-                'enableVNC': True
-            })
         if selenoid:
+            if vnc:
+                options.set_capability('selenoid:options', {
+                    'enableVNC': True
+                })
             driver = webdriver.Remote(
                 'http://127.0.0.1:4444/wd/hub',
                 options=options
